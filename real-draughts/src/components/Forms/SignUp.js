@@ -11,7 +11,6 @@ class SignUp extends React.Component {
         this.onClick = this.onClick.bind(this);
         this.confirmPasswordHandler = this.confirmPasswordHandler.bind(this);
         this.firstNameHandler =this.firstNameHandler.bind(this);
-        this.lastNameHandler =this.lastNameHandler.bind(this);
     };
 
     onChange = e => {
@@ -30,10 +29,6 @@ class SignUp extends React.Component {
             this.setState({firstName: e.target.value});
         }
     
-    lastNameHandler = e => {
-            this.setState({lastName: e.target.value});
-        }
-
     onClick(){
         console.log("on CLick", this.state);
     }
@@ -47,7 +42,7 @@ class SignUp extends React.Component {
             <Navbar.Toggle />
             <Navbar.Collapse className="justify-content-end">
               <Navbar.Text>
-                 <a href="/Login">Login</a>
+                 <a href="/login">Login</a>
               </Navbar.Text>
             </Navbar.Collapse>
           </Navbar>
@@ -56,24 +51,15 @@ class SignUp extends React.Component {
             <Card.Header>REGISTRATION</Card.Header>
             <Card.Body>
                 <Card.Text>
-                <form>
-                <Form.Row>
-                <Col>
+            <Form onClick={this.onClick} action="/main-menu">
                 <Form.Group controlId="formBasicFname">
                     <Form.Label>First name</Form.Label>
-                    <Form.Control type="text" className="form-control" onChange={this.firstNameHandler} placeholder="First name" />
+                    <Form.Control type="text" className="form-control" onChange={this.firstNameHandler} placeholder="First name" required />
                 </Form.Group>
-                </Col>
-                <Col>
-                <Form.Group controlId="formBasicLname">
-                    <Form.Label>Last name</Form.Label>
-                    <Form.Control type="text" className="form-control" onChange={this.lastNameHandler} placeholder="Last name" />
-                </Form.Group>
-                </Col>
-                </Form.Row>
+               
                 <Form.Group controlId="formBasicEmail">
                 <Form.Label>Email address</Form.Label>
-                <Form.Control type="email" onChange={this.onChange} placeholder="Enter email" />
+                <Form.Control type="email" onChange={this.onChange} placeholder="Enter email" required/>
                 <Form.Text className="text-muted">
                 We'll never share your email with anyone else.
                 </Form.Text>
@@ -81,22 +67,22 @@ class SignUp extends React.Component {
 
                 <Form.Group controlId="formBasicPassward">
                 <Form.Label>Password</Form.Label>
-                <Form.Control type="password" onChange={this.onChange} placeholder="password"/>
+                <Form.Control type="password" onChange={this.onChange} placeholder="password"required/>
                 </Form.Group>
 
                 <Form.Group controlId="formBasicPassward">
                 <Form.Label>Confirm Password</Form.Label>
-                <Form.Control type="password" onChange={this.confirmPasswordHandler} placeholder="confirm password"/>
+                <Form.Control type="password" onChange={this.confirmPasswordHandler} placeholder="confirm password" required/>
                 </Form.Group>
 
-                <Button variant="primary" type="submit" onClick={this.onClick}>
+                <Button variant="primary" type="submit">
                 Sign-Up
                 </Button>
 
                 <p className="forgot-password text-right">
-                    Already registered <a href="/Login">sign in?</a>
+                    Already registered <a href="/login">sign in?</a>
                 </p>
-            </form>
+            </Form>
 
                 </Card.Text>
             </Card.Body>

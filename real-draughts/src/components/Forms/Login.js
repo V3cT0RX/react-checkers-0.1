@@ -28,7 +28,7 @@ class LoginForm extends React.Component {
             <Navbar.Toggle />
             <Navbar.Collapse className="justify-content-end">
               <Navbar.Text>
-                 <a href="/Sign-Up">SignUp</a>
+                 <a href="/sign-up">SignUp</a>
               </Navbar.Text>
             </Navbar.Collapse>
           </Navbar>
@@ -37,10 +37,10 @@ class LoginForm extends React.Component {
             <Card.Header>LOGIN</Card.Header>
             <Card.Body>
                 <Card.Text>
-                    <Form>
+                    <Form onClick={this.onClick} action="/main-menu">
                         <Form.Group controlId="formBasicEmail">
                             <Form.Label>Email address</Form.Label>
-                            <Form.Control type="email" onChange={this.onChange} placeholder="Enter email" />
+                            <Form.Control type="email" onChange={this.onChange} placeholder="Enter email" required="required"/>
                             <Form.Text className="text-muted">
                             We'll never share your email with anyone else.
                             </Form.Text>
@@ -48,12 +48,13 @@ class LoginForm extends React.Component {
 
                         <Form.Group controlId="formBasicPassword">
                             <Form.Label>Password</Form.Label>
-                            <Form.Control type="password" onChange={this.onChange} placeholder="Password" />
+                            <Form.Control type="password" onChange={this.onChange} placeholder="Password" required="required"/>
                         </Form.Group>
                         <Form.Group controlId="formBasicCheckbox">
                             <Form.Check type="checkbox" label="Check me out" />
                         </Form.Group>
-                        <Button variant="primary" type="submit" onClick={this.onClick}>
+                       
+                        <Button  variant="primary" type="submit">
                             Submit
                         </Button>
                     </Form>
