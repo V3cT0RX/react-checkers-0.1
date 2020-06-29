@@ -9,7 +9,7 @@ class MainMenu extends React.Component{
             <Navbar.Brand href="#home">
                 {/* add brand logo here and give proper link.... */}
               <img
-                src="/logo.svg"
+                src={require("../img/blackking.jpeg")}
                 width="30"
                 height="30"
                 className="d-inline-block align-top"

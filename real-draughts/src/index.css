@@ -18,13 +18,14 @@ code {
 }
 
 .board {
-  width: 640px;
-  height: 640px;
+  width: 575px;
+  height: 575px;
   margin: 20px;
-  /* border: 25px solid #333; */
+  border: 15px solid #333;
 }
 
 .row {
+  margin-left: auto;
   height: 50px;
   margin-bottom: 5px;
 }
@@ -49,5 +50,33 @@ code {
 }
 .row:nth-child(even) .cell:nth-child(odd) {
   /* background-color: rgb(243, 132, 6); */
-  background-color: #6a6aff
+  background-color: #6a6aff;
 }
+.cell .gamePiece {
+  width: 40px;
+  height: 40px;
+  margin: 5px 0 0 5px;
+  border-radius:140px;
+  cursor: pointer;
+  position: relative;
+  
+}
+.cell.cell-b .gamePiece {
+  background-color: #444;
+}
+
+.cell.cell-w .gamePiece {
+  background-color:white;
+}
+
+.cell .gamePiece:after {
+  content: ' ';
+  position: absolute;
+  right: 0;
+  top: -5px;
+  height: 38px;
+  width: 38px;
+  border-radius: 40px;
+  pointer-events: none;
+}
+
