@@ -9,9 +9,9 @@ class GameBoard extends React.Component{
                 ['-','b','-','b','-','b','-','b','-','b'],
                 ['b','-','b','-','b','-','b','-','b','-'],
                 ['-','b','-','b','-','b','-','b','-','b'],
-                ['b','-','b','-','b','-','b','-','b','-'],
+                ['b','-','-','-','b','-','b','-','b','-'],
                 ['-','-','-','-','-','-','-','-','-','-'],
-                ['-','-','-','-','-','-','-','-','-','-'],
+                ['-','-','-','-','b','-','-','-','-','-'],
                 ['-','w','-','w','-','w','-','w','-','w'],
                 ['w','-','w','-','w','-','w','-','w','-'],
                 ['-','w','-','w','-','w','-','w','-','w'],
@@ -21,44 +21,79 @@ class GameBoard extends React.Component{
         };
         this.handlePieceClick=this.handlePieceClick.bind(this);
         this.highlightPossibleMoves=this.highlightPossibleMoves.bind(this);
+        this.findPossibleMoves=this.findPossibleMoves.bind(this);
     }
 
     handlePieceClick(e){
         var rowIndex = parseInt(e.target.attributes['data-row'].nodeValue);
         var cellIndex = parseInt(e.target.attributes['data-cell'].nodeValue);
-        var possibleMoves = [];
-        var col = cellIndex-1;
-        var col1 = cellIndex+1;
-        var row = rowIndex ;
-        var row1 = rowIndex ;
-        var pos = [-1,1];
-        var i = 0;
+       
         if(this.state.board[rowIndex][cellIndex].indexOf(this.state.activePlayer) > -1){
+            this.findPossibleMoves(rowIndex,cellIndex);
+            } 
+        this.setState(this.state);
+        } 
+    highlightPossibleMoves(rowIndex,cellIndex,possibleMoves){
+        // this.state.board = this.state.board.map((row) => row.map((cell)=> cell.replace('-','X')));
+            var i=0;
+            var j=0;
+            var row=[];
+            for(i;i<this.state.board.length;i++){
+                for(j;j<possibleMoves.length;j++){
+                    if(this.state.board[possibleMoves[j][0]][possibleMoves[j][1]]==='-' ){
+                        this.state.board[possibleMoves[j][0]][possibleMoves[j][1]]='h';
+                        // break;
+                    }
+                    // else if(this.state.board[possibleMoves[j][0]][possibleMoves[j][1]]==='b'){
+                    //     this.state.board[possibleMoves[j+1][0]][possibleMoves[j+1][1]]='h';
+                    // }
+                }
+            }
+        }
+    findPossibleMoves(rowIndex,cellIndex){
+        var pos = [-1,1];//for left or right
+        var possibleMoves = [];
+        var colLeft = cellIndex-1;
+        var colRight = cellIndex+1;
+        var rowLeft = rowIndex ;
+        var rowRight = rowIndex ;
+        if(this.state.activePlayer==='w'){
+            for(var i=0;i<=pos.length;i++){
+                if(pos[i] === (-1)){
+                    // for left direction
+                        for(colLeft; colLeft>-1 && rowLeft>0; colLeft--){
+                            rowLeft = rowLeft - 1;
+                            possibleMoves.push([rowLeft,colLeft]);
+                        }
+                }else{
+                    // for right direction
+                    for(colRight; colRight<10 && rowRight>0; colRight++){
+                        rowRight = rowRight - 1;
+                        possibleMoves.push([rowRight,colRight]);
+                        }
+                }
+            }
+        }
+        //for black
+        else{
             for(i=0;i<=pos.length;i++){
                 if(pos[i] === (-1)){
-                        for(col; col>-1 && row>0; col--){
-                            row = row - 1;
-                            // console.log(row, col);
-                            possibleMoves.push([row,col]);
-                        }console.log('***');
+                    // for left direction
+                        for(colLeft; colLeft>-1 && rowLeft<10; colLeft--){
+                            rowLeft = rowLeft + 1;
+                            possibleMoves.push([rowLeft,colLeft]);
+                        }
                 }else{
-                    for(col1; col1<10 && row1>0; col1++){
-                        row1 = row1 - 1;
-                        // console.log(row1, col1);
-                        possibleMoves.push([row1,col1])
+                    // for right direction
+                    for(colRight; colRight<10 && rowRight<10; colRight++){
+                        rowRight = rowRight + 1;
+                        possibleMoves.push([rowRight,colRight]);
                     }
                 }
             }
-            this.highlightPossibleMoves(possibleMoves);
-        } 
-    }
-    highlightPossibleMoves(possibleMoves){
-        var i=0;
-        for(i=0;i<possibleMoves.length;i++){
-               
         }
-        console.log(this.state.board);
-    }  
+        return possibleMoves;
+    }
     render(){
         // {console.log(this.index)};
         return(

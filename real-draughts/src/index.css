@@ -69,6 +69,10 @@ code {
   background-color:white;
 }
 
+.cell.cell-h {
+  background-color:rebeccapurple !important;
+}
+
 .cell .gamePiece:after {
   content: ' ';
   position: absolute;
