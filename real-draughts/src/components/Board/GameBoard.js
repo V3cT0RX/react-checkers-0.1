@@ -7,12 +7,12 @@ class GameBoard extends React.Component{
         this.state={
             board :[
                 ['-','b','-','b','-','b','-','b','-','b'],
+                ['-','-','b','-','b','-','b','-','b','-'],
+                ['-','-','-','b','-','b','-','b','-','b'],
                 ['b','-','b','-','b','-','b','-','b','-'],
-                ['-','b','-','b','-','b','-','b','-','b'],
-                ['b','-','-','-','b','-','b','-','b','-'],
                 ['-','-','-','-','-','-','-','-','-','-'],
                 ['-','-','-','-','b','-','-','-','-','-'],
-                ['-','w','-','w','-','w','-','w','-','w'],
+                ['-','w','-','w','-','-','-','w','-','w'],
                 ['w','-','w','-','w','-','w','-','w','-'],
                 ['-','w','-','w','-','w','-','w','-','w'],
                 ['w','-','w','-','w','-','w','-','w','-'],
@@ -22,38 +22,43 @@ class GameBoard extends React.Component{
         this.handlePieceClick=this.handlePieceClick.bind(this);
         this.highlightPossibleMoves=this.highlightPossibleMoves.bind(this);
         this.findPossibleMoves=this.findPossibleMoves.bind(this);
+        this.checkSequence=this.checkSequence.bind(this);
     }
 
     handlePieceClick(e){
         var rowIndex = parseInt(e.target.attributes['data-row'].nodeValue);
         var cellIndex = parseInt(e.target.attributes['data-cell'].nodeValue);
        
-        if(this.state.board[rowIndex][cellIndex].indexOf(this.state.activePlayer) > -1){
-            this.findPossibleMoves(rowIndex,cellIndex);
-            } 
+        // if(this.state.board[rowIndex][cellIndex].indexOf(this.state.activePlayer) > -1){
+            // this.findPossibleMoves(rowIndex,cellIndex);
+            this.checkSequence(rowIndex,cellIndex);
+            // } 
         this.setState(this.state);
         } 
-    highlightPossibleMoves(rowIndex,cellIndex,possibleMoves){
-        // this.state.board = this.state.board.map((row) => row.map((cell)=> cell.replace('-','X')));
-            var i=0;
-            var j=0;
-            var row=[];
-            for(i;i<this.state.board.length;i++){
-                for(j;j<possibleMoves.length;j++){
-                    if(this.state.board[possibleMoves[j][0]][possibleMoves[j][1]]==='-' ){
-                        this.state.board[possibleMoves[j][0]][possibleMoves[j][1]]='h';
-                        // break;
-                    }
-                    // else if(this.state.board[possibleMoves[j][0]][possibleMoves[j][1]]==='b'){
-                    //     this.state.board[possibleMoves[j+1][0]][possibleMoves[j+1][1]]='h';
-                    // }
+    highlightPossibleMoves(rowIndex,cellIndex){
+        // var possibleMoves = this.checkSequence(rowIndex,cellIndex);
+        if(this.state.board[rowIndex][cellIndex]==='-' ){
+            this.state.board[rowIndex][cellIndex]='h';
+        }
+    }
+    checkSequence(row,col){
+        var arr =this.findPossibleMoves(row,col);
+            console.log(arr.length);
+            if(arr.length<3){
+                this.highlightPossibleMoves(row,col);
+            }
+            else{
+            // (arr.length == 3){
+                if( this.state.board[arr[0][0]][arr[0][1]]==='-' && this.state.board[arr[1][0]][arr[1][1]]==='b' && this.state.board[arr[2][0]][arr[2][1]]==='-'){
+                    console.log(arr[2][0],arr[2][1],"xyz");
+                    this.checkSequence(arr[2][0],arr[2][1]);
                 }
             }
-        }
+    }
     findPossibleMoves(rowIndex,cellIndex){
         var pos = [-1,1];//for left or right
         var possibleMoves = [];
-        var colLeft = cellIndex-1;
+        var colLeft = cellIndex;
         var colRight = cellIndex+1;
         var rowLeft = rowIndex ;
         var rowRight = rowIndex ;
@@ -61,16 +66,25 @@ class GameBoard extends React.Component{
             for(var i=0;i<=pos.length;i++){
                 if(pos[i] === (-1)){
                     // for left direction
-                        for(colLeft; colLeft>-1 && rowLeft>0; colLeft--){
-                            rowLeft = rowLeft - 1;
-                            possibleMoves.push([rowLeft,colLeft]);
+                        // for(colLeft; colLeft>-1 && rowLeft>0; colLeft--){
+                        //     rowLeft = rowLeft - 1;
+                        //     possibleMoves.push([rowLeft,colLeft]);
+                        // }
+                        for(i=0;i<3;i++){
+                            if(colLeft>-1 && rowLeft>0){
+                                possibleMoves.push([rowLeft,colLeft]);
+                                colLeft = colLeft-1;
+                                rowLeft = rowLeft-1;
+                               
+                            }
                         }
-                }else{
+                }
+                else{
                     // for right direction
-                    for(colRight; colRight<10 && rowRight>0; colRight++){
-                        rowRight = rowRight - 1;
-                        possibleMoves.push([rowRight,colRight]);
-                        }
+                    // for(colRight; colRight<10 && rowRight>0; colRight++){
+                    //     rowRight = rowRight - 1;
+                    //     possibleMoves.push([rowRight,colRight]);
+                    //     }
                 }
             }
         }
@@ -95,7 +109,6 @@ class GameBoard extends React.Component{
         return possibleMoves;
     }
     render(){
-        // {console.log(this.index)};
         return(
             <div className='container'>
                 <div className={'board '+this.state.activePlayer}>
